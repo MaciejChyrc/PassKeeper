@@ -45,6 +45,8 @@ namespace PassKeeper
 					authBtn.Visibility = Visibility.Collapsed;
 					authBox.IsEnabled = false;
 					authBtn.IsEnabled = false;
+					loginBtn.IsEnabled = true;
+					registerBtn.IsEnabled = true;
 
 					timer.Stop();
 					stopwatch.Stop();
@@ -104,7 +106,8 @@ namespace PassKeeper
 			string user = loginBox.Text;
 			string pswd = passwordBox.Password;
 
-			userDto = AppUserOperations.SelectAppUser(user, pswd);
+			if (MyAes.EncryptStringToString(pswd).Length <= 255)
+				userDto = AppUserOperations.SelectAppUser(user, pswd);
 
 			if (userDto != null)
 			{
@@ -112,12 +115,14 @@ namespace PassKeeper
 				authBtn.Visibility = Visibility.Visible;
 				authBox.IsEnabled = true;
 				authBtn.IsEnabled = true;
+				loginBtn.IsEnabled = false;
+				registerBtn.IsEnabled = false;
 
 				timer.Start();
 				stopwatch.Start();
 				try
 				{
-					Task.Run((() => { SendAuthCode(user); }));
+					Task.Run(() => { SendAuthCode(user); });
 				}
 				catch (SmtpException exc)
 				{
@@ -132,20 +137,45 @@ namespace PassKeeper
 
 		private void authBtn_Click(object sender, RoutedEventArgs e)
 		{
-			DataStatic.LoggedUser = userDto;
-			System.Diagnostics.Debug.WriteLine(DataStatic.LoggedUser.Email + DataStatic.LoggedUser.Password);
+			int res = 0;
+			if (int.TryParse(authBox.Text, out res))
+			{
+				if (res == authCode)
+				{
+					DataStatic.LoggedUser = userDto;
+					System.Diagnostics.Debug.WriteLine(DataStatic.LoggedUser.Email + DataStatic.LoggedUser.Password);
+					App.Current.MainWindow = new DataViewWindow();
+					App.Current.MainWindow.Show();
+					this.Close();
+				}
+				else
+				{
+					MessageBox.Show("Nieprawidłowy kod.");
+				}
+			}
 		}
 
 		private void registerBtn_Click(object sender, RoutedEventArgs e)
 		{
 			string user = loginBox.Text;
 			string pswd = passwordBox.Password;
+			if (MyAes.EncryptStringToString(pswd).Length <= 255)
+			{
+				bool succeeded = AppUserOperations.AddAppUser(user, pswd);
 
-			bool succeeded = AppUserOperations.AddAppUser(user, pswd);
-
-			if (succeeded)
-				MessageBox.Show("Założono nowe konto.");
+				if (succeeded)
+					MessageBox.Show("Założono nowe konto.");
+				else MessageBox.Show("Zakładanie konta nie powiodło się.");
+			}
 			else MessageBox.Show("Zakładanie konta nie powiodło się.");
+		}
+
+		private void Window_Closing(object sender, CancelEventArgs e)
+		{
+			if (!App.Current.MainWindow.IsActive)
+			{
+				App.Current.Shutdown(0);
+			}
 		}
 	}
 }

@@ -4,6 +4,9 @@
              xmlns:local="clr-namespace:PassKeeper"
              StartupUri="LoginWindow.xaml">
     <Application.Resources>
-         
+
     </Application.Resources>
+    <Application.MainWindow>
+        <local:DataViewWindow/>
+    </Application.MainWindow>
 </Application>

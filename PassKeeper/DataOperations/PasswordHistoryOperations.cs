@@ -27,13 +27,26 @@ namespace PassKeeper.DataOperations
 			}
 		}
 
+		public static int SelectPasswordHistoryCount(int dataId)
+		{
+			using (var db = new DbModel())
+			{
+				var histCount = (from x in db.PASSWORD_HISTORY
+					join y in db.USER_DATA on x.DATA_ID equals y.ID
+					where y.ID == dataId
+					select x).Count();
+
+				return histCount;
+			}
+		}
+
 		public static void AddPasswordHistory(DateTime dateHist, string passwordHist, int dataId)
 		{
 			PASSWORD_HISTORY hist = new PASSWORD_HISTORY()
 			{
 				DATA_ID = dataId,
 				DATE_HIST = dateHist,
-				PASSWORD_HIST = passwordHist
+				PASSWORD_HIST = MyAes.EncryptStringToString(passwordHist)
 			};
 
 			using (var db = new DbModel())

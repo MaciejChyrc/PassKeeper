@@ -10,5 +10,6 @@ namespace PassKeeper
 	public static class DataStatic
 	{
 		public static AppUserDto LoggedUser { get; set; }
+		public static List<UserDataDto> UserData { get; set; }
 	}
 }

@@ -21,7 +21,7 @@ namespace PassKeeper
         public string EMAIL { get; set; }
 
         [Required]
-        [StringLength(32)]
+        [StringLength(255)]
         public string PASSWORD { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

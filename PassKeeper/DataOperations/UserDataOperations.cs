@@ -29,6 +29,33 @@ namespace PassKeeper.DataOperations
 			}
 		}
 
+		public static int SelectNewest(int userId)
+		{
+			using (var db = new DbModel())
+			{
+				var newest = (from x in db.USER_DATA
+					join y in db.APP_USER on x.APP_USER_ID equals y.ID
+					where y.ID == userId
+					orderby x.ID descending
+					select x).First();
+
+				return newest.ID;
+			}
+		}
+
+		public static int SelectUserDataCount(int userId)
+		{
+			using (var db = new DbModel())
+			{
+				var dataCount = (from x in db.USER_DATA
+					join y in db.APP_USER on x.APP_USER_ID equals y.ID
+					where y.ID == userId
+					select x).Count();
+
+				return dataCount;
+			}
+		}
+
 		public static void AddUserData(string comment, string servName, string servPassword, int userId)
 		{
 			USER_DATA data = new USER_DATA()
@@ -36,7 +63,7 @@ namespace PassKeeper.DataOperations
 				APP_USER_ID = userId,
 				COMMENT = comment,
 				SERV_NAME = servName,
-				SERV_PASSWORD = servPassword
+				SERV_PASSWORD = MyAes.EncryptStringToString(servPassword)
 			};
 
 			using (var db = new DbModel())
@@ -58,6 +85,25 @@ namespace PassKeeper.DataOperations
 				if (deleteData != null)
 				{
 					db.USER_DATA.Remove(deleteData);
+					db.SaveChanges();
+				}
+			}
+		}
+
+		public static void UpdateUserData(string comment, string servName, string servPassword, int id)
+		{
+			using (var db = new DbModel())
+			{
+				var updateData = (from x
+					in db.USER_DATA
+					where x.ID == id
+					select x).SingleOrDefault();
+
+				if (updateData != null)
+				{
+					updateData.COMMENT = comment;
+					updateData.SERV_NAME = servName;
+					updateData.SERV_PASSWORD = MyAes.EncryptStringToString(servPassword);
 					db.SaveChanges();
 				}
 			}

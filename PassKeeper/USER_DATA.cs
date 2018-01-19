@@ -22,7 +22,7 @@ namespace PassKeeper
         public string SERV_NAME { get; set; }
 
         [Required]
-        [StringLength(32)]
+        [StringLength(255)]
         public string SERV_PASSWORD { get; set; }
 
         [StringLength(255)]

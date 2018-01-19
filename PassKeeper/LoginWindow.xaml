@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PassKeeper"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="220" Width="300" MinHeight="220" MinWidth="300" MaxHeight="220" MaxWidth="300">
+        Title="LoginWindow" Height="220" Width="300" MinHeight="220" MinWidth="300" MaxHeight="220" MaxWidth="300" Closing="Window_Closing">
     <Grid>
         <Label x:Name="loginLbl" Content="Login:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Label x:Name="passwordLbl" Content="Hasło:" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"/>
@@ -13,8 +13,8 @@
         <PasswordBox x:Name="passwordBox" HorizontalAlignment="Left" Height="26" Margin="58,36,0,0" VerticalAlignment="Top" Width="200"/>
         <Button x:Name="loginBtn" Content="Zaloguj" HorizontalAlignment="Left" Margin="58,67,0,0" VerticalAlignment="Top" Width="90" Click="loginBtn_Click"/>
         <Button x:Name="registerBtn" Content="Zarejestruj" HorizontalAlignment="Left" Margin="168,67,0,0" VerticalAlignment="Top" Width="90" Click="registerBtn_Click"/>
-        <TextBox x:Name="authBox" HorizontalAlignment="Left" Height="26" Margin="133,94,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="50" Visibility="Collapsed" IsEnabled="False"/>
-        <Button x:Name="authBtn" Content="Wejdź" HorizontalAlignment="Left" Margin="133,125,0,0" VerticalAlignment="Top" Width="50" Visibility="Collapsed" IsEnabled="False" Click="authBtn_Click"/>
+        <TextBox x:Name="authBox" HorizontalAlignment="Left" Height="26" Margin="10,94,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="40" Visibility="Collapsed" IsEnabled="False"/>
+        <Button x:Name="authBtn" Content="Wejdź" HorizontalAlignment="Left" Margin="58,94,0,0" VerticalAlignment="Top" Width="90" Visibility="Collapsed" IsEnabled="False" Click="authBtn_Click"/>
         <TextBlock x:Name="timeoutLbl" Text="00:00" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Height="20" Width="40" TextAlignment="Center"/>
     </Grid>
 </Window>

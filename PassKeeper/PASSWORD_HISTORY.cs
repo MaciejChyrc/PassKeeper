@@ -13,7 +13,7 @@ namespace PassKeeper
         public int DATA_ID { get; set; }
 
         [Required]
-        [StringLength(32)]
+        [StringLength(255)]
         public string PASSWORD_HIST { get; set; }
 
         [Column(TypeName = "date")]
