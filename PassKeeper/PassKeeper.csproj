@@ -76,6 +76,9 @@
     <Compile Include="Dto\AppUserDto.cs" />
     <Compile Include="Dto\PasswordHistoryDto.cs" />
     <Compile Include="Dto\UserDataDto.cs" />
+    <Compile Include="HistViewWindow.xaml.cs">
+      <DependentUpon>HistViewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -86,6 +89,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DataViewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HistViewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

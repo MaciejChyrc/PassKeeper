@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace PassKeeper
 	public partial class DataViewWindow : Window
 	{
 		private int maxDataCount = 30;
-		private int maxHistCount = 10;
+		//private int maxHistCount = 10;
 
 		public DataViewWindow()
 		{
@@ -37,7 +38,7 @@ namespace PassKeeper
 			GetDecryptAndShow();
 			ImageBrush imgBrush = new ImageBrush();
 			Image img = new Image();
-			img.Source = new BitmapImage(new Uri("C:\\Users\\Szatan\\Pictures\\forsenECarpet.png"));
+			img.Source = new BitmapImage(new Uri("C:\\Users\\Szatan\\Pictures\\Jebaited.png"));
 			imgBrush.ImageSource = img.Source;
 			UserDataGrid.Background = imgBrush;
 		}
@@ -45,6 +46,7 @@ namespace PassKeeper
 		private void GetDecryptAndShow()
 		{
 			DataStatic.UserData = DataOperations.UserDataOperations.SelectUserData(DataStatic.LoggedUser.Id);
+
 			foreach (var userDataDto in DataStatic.UserData)
 			{
 				userDataDto.ServPassword = MyAes.DecryptStringToString(userDataDto.ServPassword);
@@ -53,6 +55,9 @@ namespace PassKeeper
 			UserDataGrid.ItemsSource = DataStatic.UserData;
 			UserDataGrid.Columns[0].Visibility = Visibility.Collapsed;
 			UserDataGrid.Columns[UserDataGrid.Columns.Count - 1].Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+			UserDataGrid.Columns[1].Header = "Nazwa serwisu";
+			UserDataGrid.Columns[2].Header = "Hasło";
+			UserDataGrid.Columns[3].Header = "Komentarz";
 		}
 
 		private void AddDataItem_Click(object sender, RoutedEventArgs e)
@@ -72,14 +77,22 @@ namespace PassKeeper
 
 		private void EditDataItem_OnClick(object sender, RoutedEventArgs e)
 		{
-			var menuItem = (MenuItem)sender;
-			var contextMenu = (ContextMenu)menuItem.Parent;
-			var item = (DataGrid)contextMenu.PlacementTarget;
-			var toEdit = (UserDataDto)item.SelectedCells[0].Item;
+			try
+			{
+				var menuItem = (MenuItem)sender;
+				var contextMenu = (ContextMenu)menuItem.Parent;
+				var item = (DataGrid)contextMenu.PlacementTarget;
+				var toEdit = (UserDataDto)item.SelectedCells[0].Item;
 
-			var addWindow = new AddUserDataWindow(toEdit.Id, toEdit.Comment, toEdit.ServName, toEdit.ServPassword, true);
-			addWindow.Closing += AddWindowOnClosing;
-			addWindow.Show();
+				var addWindow = new AddUserDataWindow(toEdit.Id, toEdit.Comment, toEdit.ServName, toEdit.ServPassword, true);
+				addWindow.Closing += AddWindowOnClosing;
+				addWindow.Show();
+			}
+			catch (Exception exception)
+			{
+				Debug.WriteLine(exception);
+				//throw;
+			}			
 		}
 
 		private void DeleteDataItem_OnClick(object sender, RoutedEventArgs e)
@@ -103,6 +116,17 @@ namespace PassKeeper
 		{
 			UserDataGrid.Width = this.Width - 40;
 			UserDataGrid.Height = this.Height - 80;
+		}
+
+		private void ShowHistOfItem_Click(object sender, RoutedEventArgs e)
+		{
+			var menuItem = (MenuItem)sender;
+			var contextMenu = (ContextMenu)menuItem.Parent;
+			var item = (DataGrid)contextMenu.PlacementTarget;
+			var toShowHist = (UserDataDto)item.SelectedCells[0].Item;
+
+			var histWindow = new HistViewWindow(toShowHist.Id);
+			histWindow.Show();
 		}
 	}
 }

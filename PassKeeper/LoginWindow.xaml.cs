@@ -41,12 +41,12 @@ namespace PassKeeper
 				timeElapsed = value;
 				if (timeElapsed >= 300) //5 minut
 				{
-					authBox.Visibility = Visibility.Collapsed;
-					authBtn.Visibility = Visibility.Collapsed;
-					authBox.IsEnabled = false;
-					authBtn.IsEnabled = false;
-					loginBtn.IsEnabled = true;
-					registerBtn.IsEnabled = true;
+					AuthBox.Visibility = Visibility.Collapsed;
+					AuthBtn.Visibility = Visibility.Collapsed;
+					AuthBox.IsEnabled = false;
+					AuthBtn.IsEnabled = false;
+					LoginBtn.IsEnabled = true;
+					RegisterBtn.IsEnabled = true;
 
 					timer.Stop();
 					stopwatch.Stop();
@@ -80,7 +80,7 @@ namespace PassKeeper
 		{
 			TimeElapsed += 1;
 			string onTimeoutBlock = $"{stopwatch.Elapsed.Minutes:00}:{stopwatch.Elapsed.Seconds:00}";
-			timeoutLbl.Text = onTimeoutBlock;
+			TimeoutLbl.Text = onTimeoutBlock;
 		}
 
 		private void SendAuthCode(string emailAddress)
@@ -101,22 +101,22 @@ namespace PassKeeper
 			smtpClient.Send(msg);
 		}
 
-		private void loginBtn_Click(object sender, RoutedEventArgs e)
+		private void LoginBtn_Click(object sender, RoutedEventArgs e)
 		{
-			string user = loginBox.Text;
-			string pswd = passwordBox.Password;
+			string user = LoginBox.Text;
+			string pswd = PasswordBox.Password;
 
 			if (MyAes.EncryptStringToString(pswd).Length <= 255)
 				userDto = AppUserOperations.SelectAppUser(user, pswd);
 
 			if (userDto != null)
 			{
-				authBox.Visibility = Visibility.Visible;
-				authBtn.Visibility = Visibility.Visible;
-				authBox.IsEnabled = true;
-				authBtn.IsEnabled = true;
-				loginBtn.IsEnabled = false;
-				registerBtn.IsEnabled = false;
+				AuthBox.Visibility = Visibility.Visible;
+				AuthBtn.Visibility = Visibility.Visible;
+				AuthBox.IsEnabled = true;
+				AuthBtn.IsEnabled = true;
+				LoginBtn.IsEnabled = false;
+				RegisterBtn.IsEnabled = false;
 
 				timer.Start();
 				stopwatch.Start();
@@ -131,14 +131,14 @@ namespace PassKeeper
 			}
 			else
 			{
-				System.Diagnostics.Debug.WriteLine("Nieprawidłowe dane logowania, lub błąd w logowaniu.");
+				MessageBox.Show("Nieprawidłowe dane logowania.");
 			}
 		}
 
-		private void authBtn_Click(object sender, RoutedEventArgs e)
+		private void AuthBtn_Click(object sender, RoutedEventArgs e)
 		{
 			int res = 0;
-			if (int.TryParse(authBox.Text, out res))
+			if (int.TryParse(AuthBox.Text, out res))
 			{
 				if (res == authCode)
 				{
@@ -155,10 +155,10 @@ namespace PassKeeper
 			}
 		}
 
-		private void registerBtn_Click(object sender, RoutedEventArgs e)
+		private void RegisterBtn_Click(object sender, RoutedEventArgs e)
 		{
-			string user = loginBox.Text;
-			string pswd = passwordBox.Password;
+			string user = LoginBox.Text;
+			string pswd = PasswordBox.Password;
 			if (MyAes.EncryptStringToString(pswd).Length <= 255)
 			{
 				bool succeeded = AppUserOperations.AddAppUser(user, pswd);

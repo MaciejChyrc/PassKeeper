@@ -77,7 +77,7 @@ namespace PassKeeper
 		    }
 			DataOperations.UserDataOperations.AddUserData(comment, servName, servPassword, DataStatic.LoggedUser.Id);
 		    int newest = DataOperations.UserDataOperations.SelectNewest(DataStatic.LoggedUser.Id);
-			DataOperations.PasswordHistoryOperations.AddPasswordHistory(DateTime.Today, servPassword, newest);
+			DataOperations.PasswordHistoryOperations.AddPasswordHistory(DateTime.Now, servPassword, newest);
 	    }
 
 	    private void EditUserData(string servName, string servPassword, string comment)
@@ -95,7 +95,7 @@ namespace PassKeeper
 			}
 
 			DataOperations.UserDataOperations.UpdateUserData(comment, servName, servPassword, dataId);
-			DataOperations.PasswordHistoryOperations.AddPasswordHistory(DateTime.Today, servPassword, dataId);
+			DataOperations.PasswordHistoryOperations.AddPasswordHistory(DateTime.Now, servPassword, dataId);
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

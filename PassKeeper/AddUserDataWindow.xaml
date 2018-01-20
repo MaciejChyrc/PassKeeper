@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PassKeeper"
         mc:Ignorable="d"
-        Title="AddUserDataWindow" Height="210" Width="310" Closing="Window_Closing">
+        Title="Dodawanie / edycja" Height="210" Width="310" Closing="Window_Closing">
     <Grid>
         <Label Content="Nazwa:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="70"/>
         <TextBox x:Name="NameBox" MaxLength="30" HorizontalAlignment="Left" Height="23" Margin="85,13,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200"/>

@@ -16,6 +16,7 @@
                     <ContextMenu>
                         <MenuItem x:Name="EditDataItem" Header="Edytuj" Click="EditDataItem_OnClick"/>
                         <MenuItem x:Name="DeleteDataItem" Header="Usuń" Click="DeleteDataItem_OnClick"/>
+                        <MenuItem x:Name="ShowHistOfItem" Header="Pokaż historię zmian" Click="ShowHistOfItem_Click"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>
